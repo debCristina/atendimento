@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: atendimento
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/atendimento}
+    username: ${DB_USER:atendimento}
+    password: ${DB_PASSWORD:atendimento}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  elasticsearch:
+    uris: ${ELASTIC_URI:http://localhost:9200}
