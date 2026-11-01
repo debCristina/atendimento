@@ -11,6 +11,8 @@ import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.util.List;
 
@@ -67,6 +69,22 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleInvalidCredentials(InvalidCredentialsException ex,
                                                              HttpServletRequest request) {
         return respond(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
+    }
+
+        // 401 — não autenticado (sem token, token inválido ou expirado)
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiError> handleAuthentication(AuthenticationException ex,
+                                                         HttpServletRequest request) {
+        return respond(HttpStatus.UNAUTHORIZED,
+                "Autenticação necessária: envie um token válido", request);
+    }
+
+    // 403 — autenticado, mas sem permissão para este recurso
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiError> handleAccessDenied(AccessDeniedException ex,
+                                                       HttpServletRequest request) {
+        return respond(HttpStatus.FORBIDDEN,
+                "Você não tem permissão para acessar este recurso", request);
     }
 
     private ResponseEntity<ApiError> respond(HttpStatus status, String message,
