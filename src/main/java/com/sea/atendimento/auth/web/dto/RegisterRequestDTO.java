@@ -1,4 +1,4 @@
-package com.sea.atendimento.user.dto;
+package com.sea.atendimento.auth.web.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

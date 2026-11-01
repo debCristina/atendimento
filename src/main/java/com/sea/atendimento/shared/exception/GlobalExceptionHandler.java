@@ -63,6 +63,12 @@ public class GlobalExceptionHandler {
         return respond(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno inesperado", request);
     }
 
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ApiError> handleInvalidCredentials(InvalidCredentialsException ex,
+                                                             HttpServletRequest request) {
+        return respond(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
+    }
+
     private ResponseEntity<ApiError> respond(HttpStatus status, String message,
                                              HttpServletRequest request,
                                              List<FieldErrorDetail> fieldErrors) {

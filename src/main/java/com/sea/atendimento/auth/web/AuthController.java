@@ -1,9 +1,12 @@
-package com.sea.atendimento.user.infra;
+package com.sea.atendimento.auth.web;
 
 
-import com.sea.atendimento.user.service.AuthService;
-import com.sea.atendimento.user.dto.RegisterRequestDTO;
-import com.sea.atendimento.user.dto.RegisterResponseDTO;
+import com.sea.atendimento.auth.service.AuthService;
+import com.sea.atendimento.auth.web.dto.LoginRequestDTO;
+import com.sea.atendimento.auth.web.dto.RegisterRequestDTO;
+import com.sea.atendimento.auth.web.dto.TokenResponseDTO;
+import com.sea.atendimento.user.web.dto.RegisterResponseDTO;
+
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,5 +25,10 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public RegisterResponseDTO register(@Valid @RequestBody RegisterRequestDTO request) {
         return authService.register(request);
+    }
+
+     @PostMapping("/login")
+    public TokenResponseDTO login(@Valid @RequestBody LoginRequestDTO request) {
+        return authService.login(request);
     }
 }

@@ -14,3 +14,7 @@ spring:
 
   elasticsearch:
     uris: ${ELASTIC_URI:http://localhost:9200}
+
+jwt:
+  secret: ${JWT_SECRET:atendimento-local-secret-key-for-development}
+  expiration: ${JWT_EXPIRATION:1h}

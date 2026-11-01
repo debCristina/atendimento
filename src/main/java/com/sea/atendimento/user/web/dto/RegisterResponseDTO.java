@@ -1,4 +1,4 @@
-package com.sea.atendimento.user.dto;
+package com.sea.atendimento.user.web.dto;
 
 import com.sea.atendimento.user.domain.Role;
 import com.sea.atendimento.user.domain.User;
