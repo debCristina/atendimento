@@ -10,6 +10,7 @@ import com.sea.atendimento.solicitation.web.dto.SolicitationResponseDTO;
 import com.sea.atendimento.user.domain.Role;
 import com.sea.atendimento.user.domain.User;
 import com.sea.atendimento.user.infra.UserRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +19,14 @@ public class AnalystSolicitationService {
 
     private final SolicitationRepository solicitationRepository;
     private final UserRepository userRepository;
+    private final ApplicationEventPublisher events;
 
     public AnalystSolicitationService(SolicitationRepository solicitationRepository,
-                                      UserRepository userRepository) {
+                                      UserRepository userRepository,
+                                      ApplicationEventPublisher events) {
         this.solicitationRepository = solicitationRepository;
         this.userRepository = userRepository;
+        this.events = events;
     }
 
     @Transactional(readOnly = true)
@@ -37,7 +41,7 @@ public class AnalystSolicitationService {
         User analyst = loadUser(user);
         Solicitation solicitation = findAccessible(id, analyst);
         solicitation.startReview(analyst);
-        return SolicitationResponseDTO.from(solicitation);
+        return publishAndRespond(solicitation);
     }
 
     @Transactional
@@ -45,7 +49,7 @@ public class AnalystSolicitationService {
         User analyst = loadUser(user);
         Solicitation solicitation = findAccessible(id, analyst);
         solicitation.decide(analyst, request.decision(), request.comment());
-        return SolicitationResponseDTO.from(solicitation);
+        return publishAndRespond(solicitation);
     }
 
     private User loadUser(AuthenticatedUser user) {
@@ -59,5 +63,10 @@ public class AnalystSolicitationService {
                 .filter(solicitation -> user.getRole() == Role.ADMIN
                         || user.getCoveredUfs().contains(solicitation.getUf()))
                 .orElseThrow(() -> new NotFoundException("Solicitação não encontrada"));
+    }
+
+    private SolicitationResponseDTO publishAndRespond(Solicitation solicitation) {
+        events.publishEvent(new SolicitationChangedEvent(solicitation.getId()));
+        return SolicitationResponseDTO.from(solicitation);
     }
 }

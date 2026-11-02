@@ -12,6 +12,7 @@ import com.sea.atendimento.solicitation.web.dto.ConfirmationRequestDTO;
 import com.sea.atendimento.solicitation.web.dto.SolicitationResponseDTO;
 import com.sea.atendimento.user.domain.User;
 import com.sea.atendimento.user.infra.UserRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,31 +24,36 @@ public class SolicitationService {
     private final SolicitationRepository solicitationRepository;
     private final UserRepository userRepository;
     private final CepLookup cepLookup;
+    private final ApplicationEventPublisher events;
 
     public SolicitationService(SolicitationRepository solicitationRepository,
                                UserRepository userRepository,
-                               CepLookup cepLookup) {
+                               CepLookup cepLookup,
+                               ApplicationEventPublisher events) {
         this.solicitationRepository = solicitationRepository;
         this.userRepository = userRepository;
         this.cepLookup = cepLookup;
+        this.events = events;
     }
 
+    // ===== Etapa 1 =====
 
     @Transactional
     public SolicitationResponseDTO create(Long clientId, BasicDataRequestDTO request) {
         User client = userRepository.getReferenceById(clientId);
         Solicitation solicitation = Solicitation.create(
                 client, request.serviceType(), request.title(), request.description());
-        return SolicitationResponseDTO.from(solicitationRepository.save(solicitation));
+        return publishAndRespond(solicitationRepository.save(solicitation));
     }
 
     @Transactional
     public SolicitationResponseDTO updateBasicData(Long id, Long clientId, BasicDataRequestDTO request) {
         Solicitation solicitation = findOwnedByClient(id, clientId);
         solicitation.updateBasicData(request.serviceType(), request.title(), request.description());
-        return SolicitationResponseDTO.from(solicitation);
+        return publishAndRespond(solicitation);
     }
 
+    // ===== Etapa 2 =====
 
     @Transactional
     public SolicitationResponseDTO updateAddress(Long id, Long clientId, AddressRequestDTO request) {
@@ -62,26 +68,29 @@ public class SolicitationService {
                 found.city(), found.uf(), request.number(), request.complement());
 
         solicitation.updateAddress(address);
-        return SolicitationResponseDTO.from(solicitation);
+        return publishAndRespond(solicitation);
     }
 
+    // ===== Etapa 3 =====
 
     @Transactional
     public SolicitationResponseDTO updateConfirmation(Long id, Long clientId, ConfirmationRequestDTO request) {
         Solicitation solicitation = findOwnedByClient(id, clientId);
         solicitation.updateConfirmation(request.priority(), request.preferredDate(),
                 request.estimatedValue(), request.termsAccepted());
-        return SolicitationResponseDTO.from(solicitation);
+        return publishAndRespond(solicitation);
     }
 
+    // ===== Envio =====
 
     @Transactional
     public SolicitationResponseDTO submit(Long id, Long clientId) {
         Solicitation solicitation = findOwnedByClient(id, clientId);
         solicitation.submit();
-        return SolicitationResponseDTO.from(solicitation);
+        return publishAndRespond(solicitation);
     }
 
+    // ===== Consultas (só leitura: não publicam evento) =====
 
     @Transactional(readOnly = true)
     public SolicitationResponseDTO findMine(Long id, Long clientId) {
@@ -95,10 +104,16 @@ public class SolicitationService {
                 .toList();
     }
 
+    // ===== Auxiliares =====
 
     private Solicitation findOwnedByClient(Long id, Long clientId) {
         return solicitationRepository.findById(id)
                 .filter(solicitation -> solicitation.isOwnedBy(clientId))
                 .orElseThrow(() -> new NotFoundException("Solicitação não encontrada"));
+    }
+
+    private SolicitationResponseDTO publishAndRespond(Solicitation solicitation) {
+        events.publishEvent(new SolicitationChangedEvent(solicitation.getId()));
+        return SolicitationResponseDTO.from(solicitation);
     }
 }
