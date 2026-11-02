@@ -5,7 +5,7 @@ import com.sea.atendimento.auth.service.AuthService;
 import com.sea.atendimento.auth.web.dto.LoginRequestDTO;
 import com.sea.atendimento.auth.web.dto.RegisterRequestDTO;
 import com.sea.atendimento.auth.web.dto.TokenResponseDTO;
-import com.sea.atendimento.user.web.dto.RegisterResponseDTO;
+import com.sea.atendimento.user.web.dto.UserResponseDTO;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public RegisterResponseDTO register(@Valid @RequestBody RegisterRequestDTO request) {
+    public UserResponseDTO register(@Valid @RequestBody RegisterRequestDTO request) {
         return authService.register(request);
     }
 

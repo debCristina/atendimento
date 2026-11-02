@@ -8,7 +8,7 @@ import com.sea.atendimento.shared.exception.InvalidCredentialsException;
 import com.sea.atendimento.shared.security.JwtService;
 import com.sea.atendimento.user.domain.User;
 import com.sea.atendimento.user.infra.UserRepository;
-import com.sea.atendimento.user.web.dto.RegisterResponseDTO;
+import com.sea.atendimento.user.web.dto.UserResponseDTO;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class AuthService {
     }
 
     @Transactional
-    public RegisterResponseDTO register(RegisterRequestDTO request) {
+    public UserResponseDTO register(RegisterRequestDTO request) {
         String email = User.normalizeEmail(request.email());
 
         if (userRepository.existsByEmail(email)) {
@@ -41,7 +41,7 @@ public class AuthService {
         User user = User.newClient(request.name(), email, passwordHash);
 
         User saved = userRepository.save(user);
-        return RegisterResponseDTO.from(saved);
+        return UserResponseDTO.from(saved);
     }
 
      @Transactional(readOnly = true)

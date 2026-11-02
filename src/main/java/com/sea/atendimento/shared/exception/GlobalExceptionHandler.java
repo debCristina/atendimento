@@ -87,6 +87,13 @@ public class GlobalExceptionHandler {
                 "Você não tem permissão para acessar este recurso", request);
     }
 
+        // 422 — requisição bem formada, mas uma regra de negócio não foi atendida
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<ApiError> handleBusinessRule(BusinessRuleException ex,
+                                                       HttpServletRequest request) {
+        return respond(HttpStatus.UNPROCESSABLE_CONTENT, ex.getMessage(), request);
+    }
+    
     private ResponseEntity<ApiError> respond(HttpStatus status, String message,
                                              HttpServletRequest request,
                                              List<FieldErrorDetail> fieldErrors) {

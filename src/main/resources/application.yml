@@ -18,3 +18,9 @@ spring:
 jwt:
   secret: ${JWT_SECRET:atendimento-local-secret-key-for-development}
   expiration: ${JWT_EXPIRATION:1h}
+
+app:
+  admin:
+    name: ${ADMIN_NAME:Administrador}
+    email: ${ADMIN_EMAIL:admin@atendimento.com}
+    password: ${ADMIN_PASSWORD:admin12345}
