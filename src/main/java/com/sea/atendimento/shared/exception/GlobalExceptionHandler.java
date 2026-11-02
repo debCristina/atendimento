@@ -88,12 +88,15 @@ public class GlobalExceptionHandler {
     }
 
         // 422 — requisição bem formada, mas uma regra de negócio não foi atendida
-    @ExceptionHandler(BusinessRuleException.class)
+     @ExceptionHandler(BusinessRuleException.class)
     public ResponseEntity<ApiError> handleBusinessRule(BusinessRuleException ex,
                                                        HttpServletRequest request) {
-        return respond(HttpStatus.UNPROCESSABLE_CONTENT, ex.getMessage(), request);
+        return respond(HttpStatus.UNPROCESSABLE_CONTENT, ex.getMessage(), request,
+                ex.getFieldErrors());
     }
-    
+
+
+
     private ResponseEntity<ApiError> respond(HttpStatus status, String message,
                                              HttpServletRequest request,
                                              List<FieldErrorDetail> fieldErrors) {
