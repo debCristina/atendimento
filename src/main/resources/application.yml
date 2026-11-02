@@ -24,3 +24,7 @@ app:
     name: ${ADMIN_NAME:Administrador}
     email: ${ADMIN_EMAIL:admin@atendimento.com}
     password: ${ADMIN_PASSWORD:admin12345}
+
+viacep:
+  base-url: ${VIACEP_BASE_URL:https://viacep.com.br/ws}
+  timeout: ${VIACEP_TIMEOUT:3s}

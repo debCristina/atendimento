@@ -95,7 +95,20 @@ public class GlobalExceptionHandler {
                 ex.getFieldErrors());
     }
 
+    // 503 — um serviço externo (como o ViaCEP) falhou ou não respondeu
+    @ExceptionHandler(ExternalServiceException.class)
+    public ResponseEntity<ApiError> handleExternalService(ExternalServiceException ex,
+                                                          HttpServletRequest request) {
+        log.warn("Falha em serviço externo em {}: {}", request.getRequestURI(), ex.getMessage(), ex);
+        return respond(HttpStatus.SERVICE_UNAVAILABLE, ex.getMessage(), request);
+    }
 
+        // 404 — o recurso não existe ou o usuário não tem acesso a ele
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiError> handleNotFound(NotFoundException ex,
+                                                   HttpServletRequest request) {
+        return respond(HttpStatus.NOT_FOUND, ex.getMessage(), request);
+    }
 
     private ResponseEntity<ApiError> respond(HttpStatus status, String message,
                                              HttpServletRequest request,
