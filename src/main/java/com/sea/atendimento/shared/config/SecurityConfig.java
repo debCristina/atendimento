@@ -12,6 +12,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
+    private static final String[] PUBLIC_ROUTES = {
+            "/auth/**",
+            "/error",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**"
+    };
+
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final SecurityExceptionDelegate securityExceptionDelegate;
 
@@ -24,21 +32,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .httpBasic(basic -> basic.disable())
-            .formLogin(form -> form.disable())
-            .sessionManagement(session ->
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/auth/**", "/error").permitAll()
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/analyst/**").hasAnyRole("ANALYST", "ADMIN")
-                    .requestMatchers("/solicitations/**").hasRole("CLIENT")
-                    .anyRequest().authenticated())
-            .exceptionHandling(exceptions -> exceptions
-                    .authenticationEntryPoint(securityExceptionDelegate)
-                    .accessDeniedHandler(securityExceptionDelegate))
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .csrf(csrf -> csrf.disable())
+                .httpBasic(basic -> basic.disable())
+                .formLogin(form -> form.disable())
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(PUBLIC_ROUTES).permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/analyst/**").hasAnyRole("ANALYST", "ADMIN")
+                        .requestMatchers("/solicitations/**").hasRole("CLIENT")
+                        .anyRequest().authenticated())
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(securityExceptionDelegate)
+                        .accessDeniedHandler(securityExceptionDelegate))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

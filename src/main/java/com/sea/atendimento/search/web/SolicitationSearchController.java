@@ -5,6 +5,8 @@ import com.sea.atendimento.search.web.dto.SearchResponseDTO;
 import com.sea.atendimento.search.web.dto.SolicitationSearchRequestDTO;
 import com.sea.atendimento.shared.security.AuthenticatedUser;
 import jakarta.validation.Valid;
+
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +22,7 @@ public class SolicitationSearchController {
 
     @GetMapping("/analyst/solicitations/search")
     public SearchResponseDTO search(@AuthenticationPrincipal AuthenticatedUser user,
-                                    @Valid SolicitationSearchRequestDTO request) {
+                                    @Valid  @ParameterObject SolicitationSearchRequestDTO request) {
         return service.search(request, user);
     }
 }
