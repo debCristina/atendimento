@@ -32,6 +32,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 20
+  app:
+    build: .
+    container_name: atendimento-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/atendimento
+      DB_USER: atendimento
+      DB_PASSWORD: atendimento
+      ELASTIC_URI: http://elasticsearch:9200
+      JWT_SECRET: ${JWT_SECRET:-docker-local-secret-key-for-development-only}
+    ports:
+      - "8080:8080"
 
 volumes:
   postgres-data:
