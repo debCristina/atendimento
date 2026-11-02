@@ -1,5 +1,6 @@
 package com.sea.atendimento.user.service;
 
+import com.sea.atendimento.shared.audit.Audit;
 import com.sea.atendimento.shared.exception.BusinessRuleException;
 import com.sea.atendimento.shared.exception.ConflictException;
 import com.sea.atendimento.user.domain.User;
@@ -22,6 +23,7 @@ public class UserService {
     }
 
     @Transactional
+    @Audit("CREATE_INTERNAL_USER")
     public UserResponseDTO createInternalUser(CreateUserRequestDTO request) {
         String email = User.normalizeEmail(request.email());
         if (userRepository.existsByEmail(email)) {

@@ -1,5 +1,6 @@
 package com.sea.atendimento.solicitation.service;
 
+import com.sea.atendimento.shared.audit.Audit;
 import com.sea.atendimento.shared.exception.BusinessRuleException;
 import com.sea.atendimento.shared.exception.FieldErrorDetail;
 import com.sea.atendimento.shared.exception.NotFoundException;
@@ -84,6 +85,7 @@ public class SolicitationService {
     // ===== Envio =====
 
     @Transactional
+    @Audit("SUBMIT_SOLICITATION")
     public SolicitationResponseDTO submit(Long id, Long clientId) {
         Solicitation solicitation = findOwnedByClient(id, clientId);
         solicitation.submit();

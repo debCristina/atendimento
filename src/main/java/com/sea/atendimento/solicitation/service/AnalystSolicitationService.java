@@ -1,5 +1,6 @@
 package com.sea.atendimento.solicitation.service;
 
+import com.sea.atendimento.shared.audit.Audit;
 import com.sea.atendimento.shared.exception.NotFoundException;
 import com.sea.atendimento.shared.security.AuthenticatedUser;
 import com.sea.atendimento.solicitation.domain.Solicitation;
@@ -37,6 +38,7 @@ public class AnalystSolicitationService {
     }
 
     @Transactional
+    @Audit("START_REVIEW")
     public SolicitationResponseDTO startReview(Long id, AuthenticatedUser user) {
         User analyst = loadUser(user);
         Solicitation solicitation = findAccessible(id, analyst);
@@ -45,6 +47,7 @@ public class AnalystSolicitationService {
     }
 
     @Transactional
+    @Audit("DECIDE_SOLICITATION")
     public SolicitationResponseDTO decide(Long id, AuthenticatedUser user, DecisionRequestDTO request) {
         User analyst = loadUser(user);
         Solicitation solicitation = findAccessible(id, analyst);
