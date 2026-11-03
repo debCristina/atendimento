@@ -61,10 +61,10 @@ public class SolicitationSearchService {
         SearchHits<SolicitationDocument> hits = operations.search(query, SolicitationDocument.class);
 
         List<SolicitationSearchResponseDTO.Item> items = hits.getSearchHits().stream()
-                .map(SearchHit::getContent)
-                .map(SolicitationSearchResponseDTO.Item::from)
+                .map(hit -> hit.getContent())
+                .map(document -> SolicitationSearchResponseDTO.Item.from(document))
                 .toList();
-
+                
         return new SolicitationSearchResponseDTO(items, page, size, hits.getTotalHits());
     }
 
