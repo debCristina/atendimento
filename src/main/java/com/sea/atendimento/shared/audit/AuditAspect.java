@@ -19,32 +19,63 @@ import java.util.Arrays;
 public class AuditAspect {
 
     private static final Logger audit = LoggerFactory.getLogger("AUDIT");
+    private static final Logger log = LoggerFactory.getLogger(AuditAspect.class);
+
+    private final AuditLogRepository repository;
+
+    public AuditAspect(AuditLogRepository repository) {
+        this.repository = repository;
+    }
 
     @Around("@annotation(auditAnnotation)")
     public Object audit(ProceedingJoinPoint joinPoint, Audit auditAnnotation) throws Throwable {
         String action = auditAnnotation.value();
-        String user = currentUser();
+        AuthenticatedUser user = currentUser();
         String resource = resourceId(joinPoint.getArgs());
         long start = System.currentTimeMillis();
 
         try {
             Object result = joinPoint.proceed();
+            long duration = System.currentTimeMillis() - start;
             audit.info("action={} user={} resource={} outcome=SUCCESS durationMs={}",
-                    action, user, resource, System.currentTimeMillis() - start);
+                    action, describe(user), resource, duration);
+            save(AuditLog.success(action, idOf(user), roleOf(user), resource, duration));
             return result;
         } catch (Throwable ex) {
+            long duration = System.currentTimeMillis() - start;
             audit.warn("action={} user={} resource={} outcome=FAILURE reason=\"{}\" durationMs={}",
-                    action, user, resource, ex.getMessage(), System.currentTimeMillis() - start);
+                    action, describe(user), resource, ex.getMessage(), duration);
+            save(AuditLog.failure(action, idOf(user), roleOf(user), resource, ex.getMessage(), duration));
             throw ex;
         }
     }
 
-    private String currentUser() {
+    private void save(AuditLog entry) {
+        try {
+            repository.save(entry);
+        } catch (Exception e) {
+            log.error("Não foi possível gravar o registro de auditoria", e);
+        }
+    }
+
+    private AuthenticatedUser currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof AuthenticatedUser user) {
-            return user.id() + ":" + user.role();
+            return user;
         }
-        return "anonymous";
+        return null;
+    }
+
+    private String describe(AuthenticatedUser user) {
+        return user == null ? "anonymous" : user.id() + ":" + user.role();
+    }
+
+    private Long idOf(AuthenticatedUser user) {
+        return user == null ? null : user.id();
+    }
+
+    private com.sea.atendimento.shared.domain.Role roleOf(AuthenticatedUser user) {
+        return user == null ? null : user.role();
     }
 
     private String resourceId(Object[] args) {
@@ -52,6 +83,6 @@ public class AuditAspect {
                 .filter(Long.class::isInstance)
                 .findFirst()
                 .map(String::valueOf)
-                .orElse("-");
+                .orElse(null);
     }
 }
