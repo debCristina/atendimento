@@ -4,7 +4,7 @@ Desafio técnico backend: **Java 21 + Spring Boot 4**.
 
 API REST para um sistema de solicitações de atendimento: o **cliente** cadastra uma solicitação em 3 etapas (podendo salvar o rascunho e continuar depois), envia, e um **analista** responsável pela UF do atendimento analisa e decide. As solicitações são indexadas no **Elasticsearch** para busca com filtros e paginação, e as ações críticas são **auditadas via AOP**.
 
-**As decisões técnicas e o porquê de cada uma estão em [docs/DECISOES.md](docs/DECISOES.md).**
+**As decisões técnicas e o porquê de cada uma estão em [docs/DECISOES.md](docs/Decisoes.md).**
 
 ---
 
