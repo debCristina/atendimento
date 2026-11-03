@@ -39,7 +39,6 @@ public class SolicitationService {
         this.events = events;
     }
 
-    // ===== Etapa 1 =====
 
     @Transactional
     public SolicitationResponseDTO create(Long clientId, BasicDataRequestDTO request) {
@@ -56,7 +55,6 @@ public class SolicitationService {
         return publishAndRespond(solicitation);
     }
 
-    // ===== Etapa 2 =====
 
     @Transactional
     public SolicitationResponseDTO updateAddress(Long id, Long clientId, AddressRequestDTO request) {
@@ -74,7 +72,6 @@ public class SolicitationService {
         return publishAndRespond(solicitation);
     }
 
-    // ===== Etapa 3 =====
 
     @Transactional
     public SolicitationResponseDTO updateConfirmation(Long id, Long clientId, ConfirmationRequestDTO request) {
@@ -84,7 +81,6 @@ public class SolicitationService {
         return publishAndRespond(solicitation);
     }
 
-    // ===== Envio =====
 
     @Transactional
     @Audit("SUBMIT_SOLICITATION")
@@ -94,7 +90,6 @@ public class SolicitationService {
         return publishAndRespond(solicitation);
     }
 
-    // ===== Consultas (só leitura: não publicam evento) =====
 
     @Transactional(readOnly = true)
     public SolicitationResponseDTO findMine(Long id, Long clientId) {
@@ -108,7 +103,6 @@ public class SolicitationService {
                 .toList();
     }
 
-    // ===== Auxiliares =====
 
     private Solicitation findOwnedByClient(Long id, Long clientId) {
         return solicitationRepository.findById(id)

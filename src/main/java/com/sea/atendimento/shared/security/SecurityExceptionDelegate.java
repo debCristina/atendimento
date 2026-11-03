@@ -20,14 +20,12 @@ public class SecurityExceptionDelegate implements AuthenticationEntryPoint, Acce
         this.resolver = resolver;
     }
 
-    // 401: a rota exige autenticação e o usuário não está autenticado
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException ex) {
         resolver.resolveException(request, response, null, ex);
     }
 
-    // 403: o usuário está autenticado, mas o papel dele não tem permissão
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
                        AccessDeniedException ex) {
