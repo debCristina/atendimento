@@ -1,6 +1,7 @@
 package com.sea.atendimento.solicitation.domain;
 
-import com.sea.atendimento.user.domain.Uf;
+import com.sea.atendimento.shared.domain.Uf;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;

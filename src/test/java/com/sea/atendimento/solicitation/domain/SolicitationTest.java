@@ -1,9 +1,9 @@
 package com.sea.atendimento.solicitation.domain;
 
+import com.sea.atendimento.shared.domain.Uf;
 import com.sea.atendimento.shared.exception.BusinessRuleException;
 import com.sea.atendimento.shared.exception.ConflictException;
 import com.sea.atendimento.shared.exception.FieldErrorDetail;
-import com.sea.atendimento.user.domain.Uf;
 import com.sea.atendimento.user.domain.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

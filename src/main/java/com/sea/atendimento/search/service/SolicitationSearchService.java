@@ -3,14 +3,14 @@ package com.sea.atendimento.search.service;
 import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import com.sea.atendimento.search.infra.SolicitationDocument;
-import com.sea.atendimento.search.web.dto.SearchResponseDTO;
+import com.sea.atendimento.search.web.dto.SolicitationSearchResponseDTO;
 import com.sea.atendimento.search.web.dto.SolicitationSearchRequestDTO;
+import com.sea.atendimento.shared.domain.Role;
+import com.sea.atendimento.shared.domain.Uf;
 import com.sea.atendimento.shared.exception.BusinessRuleException;
 import com.sea.atendimento.shared.exception.NotFoundException;
 import com.sea.atendimento.shared.security.AuthenticatedUser;
 import com.sea.atendimento.solicitation.domain.SolicitationStatus;
-import com.sea.atendimento.user.domain.Role;
-import com.sea.atendimento.user.domain.Uf;
 import com.sea.atendimento.user.domain.User;
 import com.sea.atendimento.user.infra.UserRepository;
 import org.springframework.data.domain.PageRequest;
@@ -41,7 +41,7 @@ public class SolicitationSearchService {
     }
 
     @Transactional(readOnly = true)
-    public SearchResponseDTO search(SolicitationSearchRequestDTO filter, AuthenticatedUser authenticated) {
+    public SolicitationSearchResponseDTO search(SolicitationSearchRequestDTO filter, AuthenticatedUser authenticated) {
         User user = userRepository.findById(authenticated.id())
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
 
@@ -50,7 +50,7 @@ public class SolicitationSearchService {
 
         Set<Uf> allowedUfs = resolveAllowedUfs(user, filter.state());
         if (allowedUfs != null && allowedUfs.isEmpty()) {
-            return SearchResponseDTO.empty(page, size);
+            return SolicitationSearchResponseDTO.empty(page, size);
         }
 
         NativeQuery query = NativeQuery.builder()
@@ -60,12 +60,12 @@ public class SolicitationSearchService {
 
         SearchHits<SolicitationDocument> hits = operations.search(query, SolicitationDocument.class);
 
-        List<SearchResponseDTO.Item> items = hits.getSearchHits().stream()
+        List<SolicitationSearchResponseDTO.Item> items = hits.getSearchHits().stream()
                 .map(SearchHit::getContent)
-                .map(SearchResponseDTO.Item::from)
+                .map(SolicitationSearchResponseDTO.Item::from)
                 .toList();
 
-        return new SearchResponseDTO(items, page, size, hits.getTotalHits());
+        return new SolicitationSearchResponseDTO(items, page, size, hits.getTotalHits());
     }
 
     // null = sem restrição de UF (admin sem filtro); vazio = nenhuma UF permitida

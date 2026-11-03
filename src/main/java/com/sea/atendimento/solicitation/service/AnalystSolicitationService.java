@@ -1,6 +1,7 @@
 package com.sea.atendimento.solicitation.service;
 
 import com.sea.atendimento.shared.audit.Audit;
+import com.sea.atendimento.shared.domain.Role;
 import com.sea.atendimento.shared.exception.NotFoundException;
 import com.sea.atendimento.shared.security.AuthenticatedUser;
 import com.sea.atendimento.solicitation.domain.Solicitation;
@@ -8,7 +9,6 @@ import com.sea.atendimento.solicitation.domain.SolicitationStatus;
 import com.sea.atendimento.solicitation.infra.SolicitationRepository;
 import com.sea.atendimento.solicitation.web.dto.DecisionRequestDTO;
 import com.sea.atendimento.solicitation.web.dto.SolicitationResponseDTO;
-import com.sea.atendimento.user.domain.Role;
 import com.sea.atendimento.user.domain.User;
 import com.sea.atendimento.user.infra.UserRepository;
 import org.springframework.context.ApplicationEventPublisher;

@@ -52,7 +52,7 @@ public class AuthService {
                 .filter(found -> passwordEncoder.matches(request.password(), found.getPasswordHash()))
                 .orElseThrow(InvalidCredentialsException::new);
 
-        String token = jwtService.generateToken(user);
+        String token = jwtService.generateToken(user.getId(), user.getRole());
         return TokenResponseDTO.bearer(token, jwtService.getExpiration());
     }
 

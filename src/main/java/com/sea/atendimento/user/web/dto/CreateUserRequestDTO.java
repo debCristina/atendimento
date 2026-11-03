@@ -1,7 +1,8 @@
 package com.sea.atendimento.user.web.dto;
 
-import com.sea.atendimento.user.domain.Role;
-import com.sea.atendimento.user.domain.Uf;
+import com.sea.atendimento.shared.domain.Role;
+import com.sea.atendimento.shared.domain.Uf;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

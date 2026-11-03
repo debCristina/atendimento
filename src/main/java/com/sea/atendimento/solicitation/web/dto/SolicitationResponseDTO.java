@@ -1,7 +1,7 @@
 package com.sea.atendimento.solicitation.web.dto;
 
+import com.sea.atendimento.shared.domain.Uf;
 import com.sea.atendimento.solicitation.domain.*;
-import com.sea.atendimento.user.domain.Uf;
 
 import java.math.BigDecimal;
 import java.time.Instant;

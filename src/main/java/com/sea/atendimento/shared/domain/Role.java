@@ -1,4 +1,4 @@
-package com.sea.atendimento.user.domain;
+package com.sea.atendimento.shared.domain;
 
 public enum Role {
     CLIENT,

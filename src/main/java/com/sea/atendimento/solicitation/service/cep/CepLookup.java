@@ -1,4 +1,4 @@
-package com.sea.atendimento.solicitation.service;
+package com.sea.atendimento.solicitation.service.cep;
 
 import java.util.Optional;
 

@@ -7,6 +7,8 @@ import com.sea.atendimento.shared.exception.NotFoundException;
 import com.sea.atendimento.solicitation.domain.Address;
 import com.sea.atendimento.solicitation.domain.Solicitation;
 import com.sea.atendimento.solicitation.infra.SolicitationRepository;
+import com.sea.atendimento.solicitation.service.cep.CepAddress;
+import com.sea.atendimento.solicitation.service.cep.CepLookup;
 import com.sea.atendimento.solicitation.web.dto.AddressRequestDTO;
 import com.sea.atendimento.solicitation.web.dto.BasicDataRequestDTO;
 import com.sea.atendimento.solicitation.web.dto.ConfirmationRequestDTO;

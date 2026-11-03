@@ -1,4 +1,4 @@
-package com.sea.atendimento.user.domain;
+package com.sea.atendimento.shared.domain;
 
 public enum Uf {
     AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA,

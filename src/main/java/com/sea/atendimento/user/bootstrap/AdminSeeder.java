@@ -1,7 +1,9 @@
-package com.sea.atendimento.user.infra;
+package com.sea.atendimento.user.bootstrap;
 
-import com.sea.atendimento.user.domain.Role;
+import com.sea.atendimento.shared.domain.Role;
 import com.sea.atendimento.user.domain.User;
+import com.sea.atendimento.user.infra.UserRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

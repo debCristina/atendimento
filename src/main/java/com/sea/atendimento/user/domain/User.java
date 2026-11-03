@@ -1,5 +1,7 @@
 package com.sea.atendimento.user.domain;
 
+import com.sea.atendimento.shared.domain.Role;
+import com.sea.atendimento.shared.domain.Uf;
 import com.sea.atendimento.shared.exception.BusinessRuleException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

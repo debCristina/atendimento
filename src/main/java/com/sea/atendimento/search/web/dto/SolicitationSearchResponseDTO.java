@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
-public record SearchResponseDTO(List<Item> items, int page, int size, long total) {
+public record SolicitationSearchResponseDTO(List<Item> items, int page, int size, long total) {
 
     public record Item(Long id, String title, String status, String serviceType, String priority,
                        String uf, String city, BigDecimal estimatedValue, LocalDate preferredDate,
@@ -20,7 +20,7 @@ public record SearchResponseDTO(List<Item> items, int page, int size, long total
         }
     }
 
-    public static SearchResponseDTO empty(int page, int size) {
-        return new SearchResponseDTO(List.of(), page, size, 0);
+    public static SolicitationSearchResponseDTO empty(int page, int size) {
+        return new SolicitationSearchResponseDTO(List.of(), page, size, 0);
     }
 }

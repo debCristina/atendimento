@@ -1,7 +1,7 @@
 package com.sea.atendimento.user.web.dto;
 
-import com.sea.atendimento.user.domain.Role;
-import com.sea.atendimento.user.domain.Uf;
+import com.sea.atendimento.shared.domain.Role;
+import com.sea.atendimento.shared.domain.Uf;
 import com.sea.atendimento.user.domain.User;
 
 import java.time.Instant;

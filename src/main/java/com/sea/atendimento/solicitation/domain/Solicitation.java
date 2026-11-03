@@ -1,9 +1,9 @@
 package com.sea.atendimento.solicitation.domain;
 
+import com.sea.atendimento.shared.domain.Uf;
 import com.sea.atendimento.shared.exception.BusinessRuleException;
 import com.sea.atendimento.shared.exception.ConflictException;
 import com.sea.atendimento.shared.exception.FieldErrorDetail;
-import com.sea.atendimento.user.domain.Uf;
 import com.sea.atendimento.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

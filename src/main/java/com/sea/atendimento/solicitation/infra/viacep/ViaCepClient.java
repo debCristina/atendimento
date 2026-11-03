@@ -1,9 +1,10 @@
 package com.sea.atendimento.solicitation.infra.viacep;
 
+import com.sea.atendimento.shared.domain.Uf;
 import com.sea.atendimento.shared.exception.ExternalServiceException;
-import com.sea.atendimento.solicitation.service.CepAddress;
-import com.sea.atendimento.solicitation.service.CepLookup;
-import com.sea.atendimento.user.domain.Uf;
+import com.sea.atendimento.solicitation.service.cep.CepAddress;
+import com.sea.atendimento.solicitation.service.cep.CepLookup;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;

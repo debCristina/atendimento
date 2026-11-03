@@ -1,9 +1,10 @@
 package com.sea.atendimento.search.web.dto;
 
+import com.sea.atendimento.shared.domain.Uf;
 import com.sea.atendimento.solicitation.domain.Priority;
 import com.sea.atendimento.solicitation.domain.ServiceType;
 import com.sea.atendimento.solicitation.domain.SolicitationStatus;
-import com.sea.atendimento.user.domain.Uf;
+
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.format.annotation.DateTimeFormat;

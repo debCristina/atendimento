@@ -1,9 +1,10 @@
 package com.sea.atendimento;
 
 import com.jayway.jsonpath.JsonPath;
-import com.sea.atendimento.solicitation.service.CepAddress;
-import com.sea.atendimento.solicitation.service.CepLookup;
-import com.sea.atendimento.user.domain.Uf;
+import com.sea.atendimento.shared.domain.Uf;
+import com.sea.atendimento.solicitation.service.cep.CepAddress;
+import com.sea.atendimento.solicitation.service.cep.CepLookup;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

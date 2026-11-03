@@ -1,12 +1,12 @@
 package com.sea.atendimento.solicitation.service;
 
+import com.sea.atendimento.shared.domain.Role;
+import com.sea.atendimento.shared.domain.Uf;
 import com.sea.atendimento.shared.exception.NotFoundException;
 import com.sea.atendimento.shared.security.AuthenticatedUser;
 import com.sea.atendimento.solicitation.domain.*;
 import com.sea.atendimento.solicitation.infra.SolicitationRepository;
 import com.sea.atendimento.solicitation.web.dto.SolicitationResponseDTO;
-import com.sea.atendimento.user.domain.Role;
-import com.sea.atendimento.user.domain.Uf;
 import com.sea.atendimento.user.domain.User;
 import com.sea.atendimento.user.infra.UserRepository;
 import org.junit.jupiter.api.DisplayName;

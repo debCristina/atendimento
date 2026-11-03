@@ -1,7 +1,6 @@
 package com.sea.atendimento.shared.security;
 
-import com.sea.atendimento.user.domain.Role;
-import com.sea.atendimento.user.domain.User;
+import com.sea.atendimento.shared.domain.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -28,12 +27,12 @@ public class JwtService {
         this.expiration = properties.expiration();
     }
 
-    public String generateToken(User user) {
+    public String generateToken(Long userId, Role role) {
         Instant now = Instant.now();
 
         return Jwts.builder()
-                .subject(String.valueOf(user.getId()))
-                .claim(ROLE_CLAIM, user.getRole().name())
+                .subject(String.valueOf(userId))
+                .claim(ROLE_CLAIM, role.name())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plus(expiration)))
                 .signWith(key)

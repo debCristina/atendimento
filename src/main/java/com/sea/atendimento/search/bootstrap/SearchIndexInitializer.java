@@ -1,10 +1,12 @@
-package com.sea.atendimento.search.service;
+package com.sea.atendimento.search.bootstrap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+
+import com.sea.atendimento.search.service.SolicitationIndexer;
 
 @Component
 public class SearchIndexInitializer implements ApplicationRunner {
