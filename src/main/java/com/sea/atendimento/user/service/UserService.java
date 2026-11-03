@@ -1,12 +1,17 @@
 package com.sea.atendimento.user.service;
 
 import com.sea.atendimento.shared.audit.Audit;
+import com.sea.atendimento.shared.domain.Uf;
 import com.sea.atendimento.shared.exception.BusinessRuleException;
 import com.sea.atendimento.shared.exception.ConflictException;
+import com.sea.atendimento.shared.exception.NotFoundException;
 import com.sea.atendimento.user.domain.User;
 import com.sea.atendimento.user.infra.UserRepository;
 import com.sea.atendimento.user.web.dto.CreateUserRequestDTO;
 import com.sea.atendimento.user.web.dto.UserResponseDTO;
+
+import java.util.Set;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,5 +51,14 @@ public class UserService {
         };
 
         return UserResponseDTO.from(userRepository.save(user));
+    }
+
+    @Transactional
+    @Audit("UPDATE_ANALYST_UFS")
+    public UserResponseDTO updateCoveredUfs(Long userId, Set<Uf> coveredUfs) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
+        user.updateCoveredUfs(coveredUfs);
+        return UserResponseDTO.from(user);
     }
 }

@@ -65,6 +65,16 @@ public class User {
         return user;
     }
 
+    public void updateCoveredUfs(Set<Uf> ufs) {
+        if (role != Role.ANALYST) {
+            throw new BusinessRuleException("Apenas analistas possuem UFs de cobertura");
+        }
+        if (ufs == null || ufs.isEmpty()) {
+            throw new BusinessRuleException("Um analista precisa cobrir pelo menos uma UF");
+        }
+        this.coveredUfs = new HashSet<>(ufs);
+    }
+
     public static User newAdmin(String name, String email, String passwordHash) {
         return new User(name, email, passwordHash, Role.ADMIN);
     }

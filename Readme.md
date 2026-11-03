@@ -111,6 +111,7 @@ O teste de integração usa **Testcontainers** (sobe PostgreSQL e Elasticsearch 
 | Método | Rota | Descrição |
 |---|---|---|
 | `POST` | `/admin/users` | Cria um `ANALYST` (com UFs) ou um `ADMIN` |
+| `PUT` | `/admin/users/{id}/covered-ufs` | ADMIN | Altera as UFs de cobertura de um analista |
 
 ### Cliente (`CLIENT`, apenas nas próprias solicitações)
 
