@@ -17,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +63,7 @@ public class SolicitationSearchService {
                 .map(hit -> hit.getContent())
                 .map(document -> SolicitationSearchResponseDTO.Item.from(document))
                 .toList();
-                
+
         return new SolicitationSearchResponseDTO(items, page, size, hits.getTotalHits());
     }
 
